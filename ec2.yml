@@ -44,11 +44,12 @@
   - name: launch a new instance
     amazon.aws.ec2_instance:
       name: game2048
-      security_group: ec2-security-group
+      instance_type: "t2.micro"
+      security_group: "ec2-security-group"
       count: 1
       image_id: ami-0c7217cdde317cfec
       region: us-east-1
-      key_name: universal.pem
+      key_name: "universal.pem"
       user_data: |
         #!/bin/bash
           sudo apt update -y
