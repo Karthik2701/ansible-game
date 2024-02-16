@@ -20,6 +20,7 @@
     amazon.aws.ec2_security_group:
       name: ec2-security-group
       description: security group for the instance
+      region: us-east-1
       rules:
         - proto: tcp
           from_port: 22
