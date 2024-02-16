@@ -48,7 +48,7 @@
       count: 1
       image_id: ami-0c7217cdde317cfec
       region: us-east-1
-      key_pair: universal.pem
+      key_name: universal.pem
       user_data: |
         #!/bin/bash
           sudo apt update -y
