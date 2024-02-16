@@ -37,7 +37,7 @@
           from_port: 3000
           to_port: 3000
           cidr_ip: 0.0.0.0/0
-      rule_egress:
+      rules_egress:
         - proto: all
           cidr_ip: 0.0.0.0/0
   - name: launch a new instance
