@@ -1,0 +1,62 @@
+---
+- name: provisioning and ec2 instance and deploying a game in it
+  hosts: localhosts
+  become: true
+  connection: local
+  gather_facts: false
+
+  pre_tasks:
+    - name: Gather facts
+      setup:
+    - name: print python vesion
+      debug:
+        msg: "using the python version {{ ansible_python_version }}"
+    - name: install dependencies
+      shell: "/usr/bin/python3.10 -m pip install {{ item }}"
+      loop:
+        - boto3
+        - botocore
+  tasks:
+  - name: create a security group
+    ec2_security_group:
+      name: ec2-security-group
+      description: security group for the instance
+      rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 443
+          to_port: 443
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 3000
+          to_port: 3000
+          cidr_ip: 0.0.0.0/0
+      rule_egress:
+        - proto: all
+          cidr_ip: 0.0.0.0/0
+  - name: launch a new instance
+    ec2_instance:
+      name: game2048
+      security_group: ec2-security-group
+      count: 1
+      image_id: ami-0c7217cdde317cfec
+      region: us-east-1
+      key_pair: universal.pem
+      user_data: |
+        #!/bin/bash
+          sudo apt update -y
+          sudo apt install docker.io -y
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          sudo docker run -d --name 2048 -p 3000:3000 sevenajay/2048:latest
+    register: ec2
+
+
+
