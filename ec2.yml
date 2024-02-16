@@ -1,6 +1,6 @@
 ---
 - name: provisioning and ec2 instance and deploying a game in it
-  hosts: localhosts
+  hosts: localhost
   become: true
   connection: local
   gather_facts: false
