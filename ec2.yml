@@ -1,10 +1,9 @@
 ---
 - name: provisioning and ec2 instance and deploying a game in it
   hosts: localhost
-  become: true
   connection: local
   gather_facts: false
-
+  tags: provisioning
   pre_tasks:
     - name: Gather facts
       setup:
